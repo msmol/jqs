@@ -9,6 +9,10 @@ import (
 
 func main() {
 
+    if len(os.Args) != 2 {
+        fmt.Println("Must provide exactly one argument")
+        os.Exit(1)
+    }
     unParsedJson := os.Args[1]
 
     var objmap map[string]interface{}
@@ -16,7 +20,8 @@ func main() {
     err := json.Unmarshal([]byte(unParsedJson), &objmap)
 
     if err != nil {
-        panic(err)
+        fmt.Println(fmt.Sprintf("Invalid JSON provided: %s", unParsedJson))
+        os.Exit(1)
     }
 
     qs := ""
