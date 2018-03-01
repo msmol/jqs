@@ -8,14 +8,20 @@
 
 ```
 $ echo '{"hello": "world"}' | jqs
-hello=world
+?hello=world
 ```
 
 or
 
 ```
 $ jqs '{"hello": "world"}'
-hello=world
+?hello=world
+```
+
+### Multiple queries
+```
+$ jqs '{"hello": "world", "foo": "bar"}'
+?hello=world&foo=bar
 ```
 
 ### Nested JSON Objects
@@ -24,12 +30,12 @@ jqs will treat any nested objects as strings, and urlencode them. E.g.
 
 ```
 $ echo '{"hello": { "foo": { "bar": "baz" }  }}' | jqs
-hello=%7B%22foo%22%3A%7B%22bar%22%3A%22baz%22%7D%7D
+?hello=%7B%22foo%22%3A%7B%22bar%22%3A%22baz%22%7D%7D
 ```
 
 URL decoded, the above is equivalent to:
 ```
-hello={"foo":{"bar":"baz"}}
+?hello={"foo":{"bar":"baz"}}
 ```
 
 ## Purpose

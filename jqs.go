@@ -48,6 +48,11 @@ func main() {
     qs := ""
 
     for k, v := range objmap {
+        if qs == "" {
+            qs += "?"
+        } else {
+            qs += "&"
+        }
         var val string
         switch t := v.(type) {
         default:
