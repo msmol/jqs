@@ -62,6 +62,9 @@ func main() {
             val = fmt.Sprintf("%s", j)
         case string:
             val = fmt.Sprintf("%s", v)
+        case []interface{}:
+            j, _ := json.Marshal(v)
+            val = fmt.Sprintf("%s", j)
         }
 
         qs += fmt.Sprintf("%s=%s", url.QueryEscape(k), url.QueryEscape(val))
