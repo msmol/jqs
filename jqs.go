@@ -48,7 +48,17 @@ func main() {
     qs := ""
 
     for k, v := range objmap {
-        val := fmt.Sprintf("%v", v)
+        var val string
+        switch t := v.(type) {
+        default:
+            fmt.Println("unexpected type %T", t)
+        case map[string]interface{}:
+            j, _ := json.Marshal(v)
+            val = fmt.Sprintf("%s", j)
+        case string:
+            val = fmt.Sprintf("%s", v)
+        }
+
         qs += fmt.Sprintf("%s=%s", url.QueryEscape(k), url.QueryEscape(val))
     }
 
