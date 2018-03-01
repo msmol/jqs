@@ -3,24 +3,45 @@ package main
 import (
     "os"
     "fmt"
+    "bufio"
     "encoding/json"
     "net/url"
 )
 
 func main() {
 
-    if len(os.Args) != 2 {
-        fmt.Println("Must provide exactly one argument")
+    var unparsedJson string
+
+    fi, err := os.Stdin.Stat()
+    if err != nil {
+        fmt.Println("Error reading from stdin")
         os.Exit(1)
     }
-    unParsedJson := os.Args[1]
+
+    if fi.Mode() & os.ModeNamedPipe == 0 {
+        // no piped data, read first arg
+
+        if len(os.Args) != 2 {
+            fmt.Println("Must provide exactly one argument")
+            os.Exit(1)
+        }
+
+        unparsedJson = fmt.Sprintf("%v", os.Args[1])
+    } else {
+        // pipe, read from stdin
+
+        scanner := bufio.NewScanner(os.Stdin)
+        for scanner.Scan() {
+            unparsedJson = fmt.Sprintf("%v", scanner.Text())
+        }
+    }
 
     var objmap map[string]interface{}
 
-    err := json.Unmarshal([]byte(unParsedJson), &objmap)
+    err = json.Unmarshal([]byte(unparsedJson), &objmap)
 
     if err != nil {
-        fmt.Println(fmt.Sprintf("Invalid JSON provided: %s", unParsedJson))
+        fmt.Println(fmt.Sprintf("Invalid JSON provided: %s", unparsedJson))
         os.Exit(1)
     }
 
@@ -33,4 +54,3 @@ func main() {
 
     fmt.Println(qs)
 }
-
