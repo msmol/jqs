@@ -61,7 +61,7 @@ As of now there is _no_ plan to support PHP style query string arrays like so:
 
 ## Purpose
 
-I often find myself needing to do this converstion when trying to replay a network request with `cURL`, given the `Copy JSON` data from the IntelliJ debugger.
+I often find myself needing to do this conversion when trying to replay a network request with `cURL`, given the `Copy JSON` data from the IntelliJ debugger.
 
 ## Build
 
